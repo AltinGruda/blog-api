@@ -1,3 +1,18 @@
 h1{
     color: red;
 }
+
+textarea, span {
+    display: block;
+}
+
+.blogPost {
+    border: solid;
+    display: inline-block;
+    width: 20rem;
+    padding: 1rem;
+}
+
+.like{
+    display: inline;
+}

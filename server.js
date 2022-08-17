@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const PORT = 2121
+const PORT = 3000
 require('dotenv').config()
 
 
 let db,
     dbConnectionStr = process.env.DB_STRING,
-    dbName = 'rap'
+    dbName = 'blog'
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then(client => {
@@ -22,25 +22,25 @@ app.use(express.json())
 
 
 app.get('/',(request, response)=>{
-    db.collection('rappers').find().sort({likes: -1}).toArray()
+    db.collection('blog').find().sort({likes: -1}).toArray()
     .then(data => {
         response.render('index.ejs', { info: data })
     })
     .catch(error => console.error(error))
 })
 
-app.post('/addRapper', (request, response) => {
-    db.collection('rappers').insertOne({stageName: request.body.stageName,
-    birthName: request.body.birthName, likes: 0})
+app.post('/addPost', (request, response) => {
+    db.collection('blog').insertOne({postTitle: request.body.postTitle,
+    postContent: request.body.postContent, likes: 0})
     .then(result => {
-        console.log('Rapper Added')
+        console.log('Post Added')
         response.redirect('/')
     })
     .catch(error => console.error(error))
 })
 
 app.put('/addOneLike', (request, response) => {
-    db.collection('rappers').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
+    db.collection('blog').updateOne({postTitle: request.body.postTitleS, postContent: request.body.postContentS,likes: request.body.likesS},{
         $set: {
             likes:request.body.likesS + 1
           }
@@ -56,11 +56,11 @@ app.put('/addOneLike', (request, response) => {
 
 })
 
-app.delete('/deleteRapper', (request, response) => {
-    db.collection('rappers').deleteOne({stageName: request.body.stageNameS})
+app.delete('/deletePost', (request, response) => {
+    db.collection('blog').deleteOne({postTitle: request.body.postTitleS})
     .then(result => {
-        console.log('Rapper Deleted')
-        response.json('Rapper Deleted')
+        console.log('Blog Post Deleted')
+        response.json('Blog Post Deleted')
     })
     .catch(error => console.error(error))
 
