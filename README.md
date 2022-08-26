@@ -1,5 +1,5 @@
 # My Blog API
-This is a blog api project I worket on.
+This is a blog api project I worked on.
 
 **Link to project:** https://blog-api-proj.herokuapp.com/
 
